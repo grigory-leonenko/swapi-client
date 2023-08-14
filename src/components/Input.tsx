@@ -17,15 +17,12 @@ export const Input = memo(({ id, type = 'text', label, placeholder, icon, value,
   }
 
   return (
-    <div className={cx('relative', 'mt-4')}>
-      {/* {label && (
-        <label
-          htmlFor={id}
-          className={`text-sm font-medium transition-all duration-300 absolute left-2 -top-3 bg-white px-1`}
-        >
+    <div className={cx('relative', 'mt-4', 'backdrop-blur-sm')}>
+      {label && (
+        <label htmlFor={id} className={cx('block', 'font-medium', 'mb-2')}>
           {label}
         </label>
-      )} */}
+      )}
       {icon && <div className={cx('absolute', 'flex', 'h-full', 'items-center', 'left-2')}>{icon}</div>}
       <input
         id={id}

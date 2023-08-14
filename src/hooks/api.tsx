@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
+import { getPersonLocalData } from '../utils'
 
-interface Person {
+export interface PersonResult {
   name: string
   height: string
   mass: string
@@ -24,7 +25,7 @@ interface PeopleResult {
   count: number
   next: string | null
   previous: string | null
-  results: Person[]
+  results: PersonResult[]
 }
 
 interface ResponseError {
@@ -33,13 +34,49 @@ interface ResponseError {
 
 export const usePeople = (page: number, query: string) => {
   const fetchPeople = useCallback(() => {
-    console.log('call fetch', page, query)
     return fetch(`https://swapi.dev/api/people?page=${page}&search=${query}`).then(res => res.json())
   }, [page, query])
 
   return useQuery<PeopleResult, ResponseError>({
-    queryKey: ['projects', page, query],
+    queryKey: ['people', page, query],
     queryFn: fetchPeople,
     keepPreviousData: true,
   })
+}
+
+export const usePerson = (id: string) => {
+  const fetchPerson = useCallback(() => {
+    return fetch(`https://swapi.dev/api/people/${id}`).then(res => res.json())
+  }, [id])
+
+  return useQuery<PersonResult, ResponseError>({
+    queryKey: ['person', id],
+    queryFn: fetchPerson,
+  })
+}
+
+export const usePersonData = (id: string, person: PersonResult) => {
+  const localKey = `person:${id}`
+  const localData = getPersonLocalData(localKey)
+  console.log(localData)
+  const [data, setData] = useState({ ...person, ...localData })
+
+  const handleSetField = useCallback(
+    (field: string, value: string) => {
+      const nextData = {
+        ...localData,
+        [field]: value,
+      }
+      console.log(nextData)
+      localStorage.setItem(localKey, JSON.stringify(nextData))
+
+      setData(current => ({
+        ...current,
+        [field]: value,
+      }))
+    },
+    [localKey, localData],
+  )
+
+  return { data, setField: handleSetField }
 }

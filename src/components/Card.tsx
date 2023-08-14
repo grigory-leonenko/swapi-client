@@ -31,11 +31,13 @@ export const Card = memo(({ id, name, birth, isLoading }: Props) => {
             'hover:border-violet-700',
             'hover:shadow-violet-700',
             'transition-colors',
+            'backdrop-blur-sm',
             'duration-200',
           )}
         >
           <img
             className={cx('w-full', 'rounded-lg', 'aspect-square', 'object-cover', 'object-top')}
+            alt={`${name} avatar`}
             src={`/persons/${id}.jpg`}
           />
           <div className={cx('mt-2')}>
