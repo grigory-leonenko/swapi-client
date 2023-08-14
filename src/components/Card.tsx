@@ -12,6 +12,7 @@ interface Props {
 export const Card = memo(({ id, name, birth, isLoading }: Props) => {
   return (
     <div
+      data-testid="person-card"
       className={cx({
         'cursor-pointer': !isLoading,
         'pointer-events-none': isLoading,
@@ -36,6 +37,7 @@ export const Card = memo(({ id, name, birth, isLoading }: Props) => {
           )}
         >
           <img
+            data-testid="person-card-img"
             className={cx('w-full', 'rounded-lg', 'aspect-square', 'object-cover', 'object-top')}
             alt={`${name} avatar`}
             src={`/persons/${id}.jpg`}
