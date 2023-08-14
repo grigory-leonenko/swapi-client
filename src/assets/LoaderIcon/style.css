@@ -1,0 +1,15 @@
+.loader {
+  animation: rotate 1s infinite;
+}
+
+
+@keyframes rotate {
+  0%, 100% {
+    transform: rotate3d(0, 1, 0, 0deg);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: rotate3d(0, 1, 0, 90deg);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
